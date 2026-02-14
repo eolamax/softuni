@@ -1,0 +1,39 @@
+city_items = [int(number) for number in input().split("|")]
+collected_items = 0
+
+while True:
+    command = input()
+
+    if command == "Adventure over":
+        break
+
+    if "Step" in command:
+        parts = command.split("$")
+        action = parts[0]
+        start_index = int(parts[1])
+        steps = int(parts[2])
+        if action == "Step Backward":
+            if 0 <= start_index < len(city_items):
+                wanted_index = (start_index - steps) % len(city_items)
+                collected_items += city_items[wanted_index]
+                city_items[wanted_index] = 0
+            else:
+                pass
+
+        elif action == "Step Forward":
+            if 0 <= start_index < len(city_items):
+                wanted_index = (start_index + steps) % len(city_items)
+                collected_items += city_items[wanted_index]
+                city_items[wanted_index] = 0
+
+    elif command.startswith("Double"):
+        part = command.split()
+        index = int(part[1])
+        if 0 <= index < len(city_items):
+            city_items[index] *= 2
+
+    elif command == "Switch":
+        city_items.reverse()
+
+print(" - ".join(map(str, city_items)))
+print(f"Robo finished the adventure with {collected_items} items!")
