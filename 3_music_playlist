@@ -1,0 +1,50 @@
+playlist = input().split()
+number_of_commands = int(input())
+
+for song in range(number_of_commands):
+    command = input()
+
+    if "*" in command:
+        new_command = command.split("*")
+        action = new_command[0].strip()
+
+        if action == "Add Song":
+            song_name = new_command[1].strip()
+            if song_name not in playlist:
+                playlist.append(song_name)
+                print(f"{song_name} successfully added")
+
+        elif action == "Delete Song":
+            number_of_songs = int(new_command[1].strip())
+            if number_of_songs <= len(playlist):
+                deleted_songs = playlist[:number_of_songs]
+                del playlist[:number_of_songs]
+                print(f'{", ".join(deleted_songs)} deleted')
+
+
+        elif action == "Shuffle Songs":
+            song_one_index = int(new_command[1].strip())
+            song_two_index = int(new_command[2].strip())
+            if 0 <= song_one_index < len(playlist) and 0 <= song_two_index < len(playlist):
+                playlist[song_one_index], playlist[song_two_index] = playlist[song_two_index], playlist[song_one_index]
+                print(f"{playlist[song_one_index]} is swapped with {playlist[song_two_index]}")
+
+        elif action == "Insert":
+            new_song = new_command[1].strip()
+            index = int(new_command[2].strip())
+            if index <= len(playlist):
+                if new_song not in playlist:
+                    playlist.insert(index, new_song)
+                    print(f"{new_song} successfully inserted")
+                else:
+                    print("Song is already in the playlist")
+            else:
+                print("Index out of range")
+
+    elif command == "Sort":
+        playlist.sort(reverse=True)
+
+    elif command == "Play":
+        print("Songs to Play:")
+        print("\n".join(playlist))
+        break
